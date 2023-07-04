@@ -26,13 +26,16 @@ SECRET_KEY = 'django-insecure-u!ig8_001q5@hwpo0#!td1#qwm0=yx!k9f(2k81yt^z0b#xg0a
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '211.204.131.200'
+    '*'
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'answer',
+    'question',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,3 +126,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
