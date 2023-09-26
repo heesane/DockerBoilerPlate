@@ -1,24 +1,89 @@
+# Docker Setting for Backend
+
 version: '3'
 services:
+
+  # Monitoring
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
     env_file:
-      - '/backend/data/grafana/env.grafana'
+      - '/data/grafana/env.grafana'
     volumes:
       - '/data/grafana:/var/lib/grafana'
     links:
       - influxdb
     restart: always
+    networks:
+      - docker_network
+  
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./data/prometheus/config:/etc/prometheus
+      - ./data/prometheus/volume:/prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--web.enable-lifecycle'
+      - '--storage.tsdb.path=/prometheus'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    user: root
+    restart: always
+    networks:
+      - docker_network
+  
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - 9100:9100
+    networks:
+      - docker_network
+
+  cadvisor:
+      image: gcr.io/cadvisor/cadvisor:latest
+      container_name: cadvisor
+      ports:
+      - 8080:8080
+      volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      depends_on:
+      - prometheus
+
+  redis_insight:
+    image: redislabs/redisinsight:latest
+    container_name: redis_insight
+    ports: 
+      - "8001:8001"
+    restart: always
+  
+  # Database / MySQL / PostgreSQL / Redis
   mysql:
     image: mysql:latest
     container_name: mysql
     ports:
       - "3306:3306"
     env_file:
-      - '/backend/data/mysql/env.mysql'
+      - '/data/mysql/env.mysql'
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -27,9 +92,22 @@ services:
       - '/data/mysql/etc:/etc/mysql/conf.d'
     restart: always
 
-  api:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgresadmin
+      POSTGRES_DB: admindb
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  # API Server / Uvicorn / FastAPI
+  fastapi_api:
     build:
-      context: /backend/data/python
+      context: data/python
       dockerfile: Dockerfile
     container_name: api
     working_dir: /code
@@ -40,3 +118,24 @@ services:
       - /data/python/app:/code
     restart: always
 
+  django_api:
+    build:
+      context: data/django_project
+      dockerfile: Dockerfile
+    container_name: api
+    command: >
+      sh -c "python manage.py makemigrations &&
+            python manage.py migrate &&
+            gunicorn --bind 0:5000 config.wsgi:application" 
+    ports:
+      - "5000:5000"
+    restart: always
+    networks:
+      - docker_network
+
+networks:
+  docker_network:
+    driver: bridge
+
+volumes:
+  test:
