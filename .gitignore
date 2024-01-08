@@ -6,6 +6,11 @@ jango/
 # C extensions
 *.so
 
+# Virtual Environments
+flask_venv/
+fastapi_venv/
+django_venv/
+
 # Distribution / packaging
 .Python
 build/

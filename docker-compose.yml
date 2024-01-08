@@ -1,6 +1,6 @@
 # Docker Setting for Backend
 
-version: '3'
+version: '3.7'
 services:
 
   # Monitoring
