@@ -11,7 +11,7 @@ alembic.ini
 flask_venv/
 fastapi_venv/
 django_venv/
-
+/.idea
 # Distribution / packaging
 .Python
 build/
