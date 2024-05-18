@@ -13,27 +13,30 @@ This is a boilerplate for Docker and Docker Compose. It is a simple example of h
 ## Features
 
 ### Database
-- Nginx
-- MySQL
-- Postgres
-- Redis
+- [MySQL](https://dev.mysql.com/doc/)
+- [Postgres](https://www.postgresql.org/docs/)
+- [Redis](https://redis.io/docs/latest/)
+- [PGAdmin](https://www.pgadmin.org/docs/)
 
-### Server
-- FastAPI
-- Flask
-- Django
-- Spring Boot
+### Backend
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Flask](https://flask.palletsprojects.com/en/latest/)
+- [Django](https://docs.djangoproject.com/en/stable/)
+- [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 
 ### Frontend
-- Next
+- [Next.js](https://nextjs.org/docs)
 
 ### Monitoring
-- Prometheus
-- Grafana
-- Node Exporter
-- cAdvisor
-- Nginx Proxy Manager
-- 
+- [Prometheus](https://prometheus.io/docs/introduction/overview/)
+- [Grafana](https://grafana.com/docs/grafana/latest/)
+- [Node Exporter](https://github.com/prometheus/node_exporter#readme)
+- [cAdvisor](https://github.com/google/cadvisor/blob/master/docs/runtime_options.md)
+
+### Operations
+- [Nginx Proxy Manager](https://nginxproxymanager.com/guide/)
+- [Nginx](https://nginx.org/en/docs/)
+- [Portainer](https://docs.portainer.io)
 
 ## Usage
 
