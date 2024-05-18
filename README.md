@@ -42,7 +42,7 @@ This is a boilerplate for Docker and Docker Compose. It is a simple example of h
 ## Usage
 
 1. Clone the repository
-2. Run `docker-compose up`
+2. Run `docker-compose -f <docker-compose.xxx.yml up -d`
 3. Access `http://localhost:<port numbers>` in your browser
 4. To stop the server, press `Ctrl + C` and run `docker-compose down`
 
