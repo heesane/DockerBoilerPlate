@@ -6,6 +6,7 @@ jango/
 # C extensions
 *.so
 pgadmin/
+alembic.ini
 # Virtual Environments
 flask_venv/
 fastapi_venv/
