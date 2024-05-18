@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  django_api:
+    build:
+      context: python/django
+      dockerfile: Dockerfile
+    container_name: api
+    command: >
+      sh -c "python manage.py makemigrations &&
+            python manage.py migrate &&
+            gunicorn --bind 0:5000 config.wsgi:application"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./python/django:/app
+    restart: always

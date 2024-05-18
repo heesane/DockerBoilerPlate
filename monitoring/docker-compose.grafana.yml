@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+
+  # Monitoring
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    env_file:
+      - '/monitoring/grafana/env.grafana'
+    volumes:
+      - '/monitoring/grafana:/var/lib/grafana'
+    restart: always

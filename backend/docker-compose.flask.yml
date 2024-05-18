@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  flask:
+    build:
+      context: 'python/flask'
+      dockerfile: Dockerfile
+    container_name: api
+    working_dir: /app
+    command: 'flask run --host'
+    ports:
+      - "5000:5000"
+    volumes:
+      - './python/flask:/app'
+    restart: always

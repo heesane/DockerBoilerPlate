@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - './mysql/env.mysql'
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - './mysql/data:/var/lib/mysql'
+      - './mysql/etc:/etc/mysql/conf.d'
+    restart: always

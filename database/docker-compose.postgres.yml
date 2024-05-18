@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+
+  postgres:
+    image: 'postgres:latest'
+    container_name: postgres12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+      POSTGRES_LOG_STATEMENT: all
+      POSTGRES_LOG_ROTATION_AGE: 1d
+      POSTGRES_LOG_ROTATION_SIZE: 10MB
+      TZ: Asia/Seoul
+    volumes:
+      - './postgres:/var/lib/postgresql/data'
+    restart: always
+
+  pgadmin:
+    image: "dpage/pgadmin4:latest"
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tees3359@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    volumes:
+      - './pgadmin/:/var/lib/pgadmin'
+    ports:
+      - "5050:80"
+    restart: always
