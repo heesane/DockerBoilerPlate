@@ -17,6 +17,7 @@ This is a boilerplate for Docker and Docker Compose. It is a simple example of h
 - [Postgres](https://www.postgresql.org/docs/)
 - [Redis](https://redis.io/docs/latest/)
 - [PGAdmin](https://www.pgadmin.org/docs/)
+- [Redis Insight](https://redis.io/docs/latest/operate/redisinsight/)
 
 ### Backend
 - [FastAPI](https://fastapi.tiangolo.com/)
